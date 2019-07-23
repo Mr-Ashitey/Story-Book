@@ -1,5 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const passport = require("passport");
+
+//Passport config
+require("./config/passport")(passport);
+
+const auth = require("./routes/auth");
 
 const app = express();
 
@@ -17,9 +23,7 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => {
-  res.send("me");
-});
+app.use("/auth", auth);
 
 const port = 3000 || process.env.PORT;
 app.listen(port, () => {
